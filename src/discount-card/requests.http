@@ -1,10 +1,10 @@
-### Create Discount Card
+### Create Discount Card (percentile,flat)
 POST http://localhost:3000/discount-card/create
 Content-Type: application/json
 
 {
-  "discountType": "flat", 
-  "discountValue": 70,
+  "discountType": "percentile", 
+  "discountValue": 50,
   "expirationDurationMinutes": 5
 }
 

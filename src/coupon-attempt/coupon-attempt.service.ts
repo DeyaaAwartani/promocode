@@ -56,14 +56,16 @@ export class CouponAttemptService {
       discountAmount: 0,
       priceAfter: product.price,
     };
-};
+  };
 
     //check copon attempt for the same user (rate limit)
     const failedAttempts = await this.getFailedCouponAttemptsForUser(user.id);
     if(failedAttempts >= 5){
+      const retryAfterSeconds = await this.getRetryAfterSecondsForUser(user.id);
       return {
       status: COUPON_ATTEMPT_STATUS.FAILED,
       reason: COUPON_FAILURE_REASON.RATE_LIMIT,
+      retryAfterSeconds,
       priceBefore: product.price,
       discountAmount: 0,
       priceAfter: product.price,
@@ -131,6 +133,33 @@ export class CouponAttemptService {
   }
 
   // get retry seconds 
+async getRetryAfterSecondsForUser(userId: number): Promise<number> {
+  const now = Date.now();
+  const oneMinuteAgo = new Date(now - 60 * 1000);
+
+  // get last one
+  const fifthLatest = await this.repo
+    .createQueryBuilder('attempt')
+    .select(['attempt.createdAt'])
+    .where('attempt.userId = :userId', { userId })
+    .andWhere('attempt.status = :status', { status: COUPON_ATTEMPT_STATUS.FAILED })
+    .andWhere('attempt.createdAt >= :oneMinuteAgo', { oneMinuteAgo })
+    .andWhere('attempt.failureReason IN (:...reasons)', { reasons: COUNTED_FAILURE_REASONS })
+    .orderBy('attempt.createdAt', 'DESC')
+    .skip(4)  // offset 4 
+    .take(1)  //get last one 
+    .getOne();
+
+  // if no fifth give 60 sec
+  if (!fifthLatest?.createdAt) return 60;
+
+  const fifthTime = new Date(fifthLatest.createdAt).getTime();
+  const elapsedSeconds = Math.floor((now - fifthTime) / 1000);
+  const retryAfterSeconds = Math.max(0, 60 - elapsedSeconds);
+
+  return retryAfterSeconds;
+  }
+
 
   //fails attempts
   async logAttempt(logAttemptDto: LogAttemptDto) {

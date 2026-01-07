@@ -16,6 +16,6 @@ export class CouponAttemptResponseDto {
   @Expose()
   reason?: string; // موجودة فقط في الفشل
 
-//   @Expose()
-//   retryAfterSeconds?: number;
-  }
+  @Expose()
+  retryAfterSeconds?: number;
+}
