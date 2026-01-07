@@ -1,0 +1,24 @@
+### create user
+POST http://localhost:3000/users/create
+content-type: application/json
+
+{
+  "name": "samera"
+}
+
+### get all users
+GET http://localhost:3000/users
+
+### get ptricular user
+GET http://localhost:3000/users/2
+
+### Update user
+PATCH http://localhost:3000/users/1
+content-type: application/json
+
+{
+  "name": "deyaa"
+}
+
+### Delete user
+DELETE http://localhost:3000/users/4
