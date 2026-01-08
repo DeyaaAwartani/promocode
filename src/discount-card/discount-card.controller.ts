@@ -20,7 +20,7 @@ export class DiscountCardController {
     return this.discountCardService.findAll();
   }
 
-  @Get()
+  @Get('/code')
   getDiscountCard(@Query('code') code:string) {
     return this.discountCardService.findOneByCode(code);
   }

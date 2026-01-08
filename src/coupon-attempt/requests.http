@@ -3,7 +3,7 @@ POST http://localhost:3000/coupon-attempt
 Content-Type: application/json
 
 {
-  "userId": 1,
-  "productId": 2,
-  "couponCode": "vssFWv7w-T1wNkza"
+  "userId": 4,
+  "productId": 3,
+  "couponCode": "QbPSrXqFu1aClL"
 }

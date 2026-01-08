@@ -3,22 +3,22 @@ POST http://localhost:3000/users/create
 content-type: application/json
 
 {
-  "name": "samera"
+  "name": "mohamed"
 }
 
 ### get all users
 GET http://localhost:3000/users
 
 ### get ptricular user
-GET http://localhost:3000/users/2
+GET http://localhost:3000/users/5
 
 ### Update user
-PATCH http://localhost:3000/users/1
+PATCH http://localhost:3000/users/5
 content-type: application/json
 
 {
-  "name": "deyaa"
+  "name": "leen"
 }
 
 ### Delete user
-DELETE http://localhost:3000/users/4
+DELETE http://localhost:3000/users/6

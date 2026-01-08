@@ -38,6 +38,8 @@ export class UsersService {
     if(!user){
       throw new NotFoundException('User not found');
     }
-    return this.repo.remove(user);
+
+    await this.repo.remove(user);
+    return {message: "Remove successfully"}
   }
 }

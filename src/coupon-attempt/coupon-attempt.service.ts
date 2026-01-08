@@ -153,8 +153,8 @@ async getRetryAfterSecondsForUser(userId: number): Promise<number> {
   // if no fifth give 60 sec
   if (!fifthLatest?.createdAt) return 60;
 
-  const fifthTime = new Date(fifthLatest.createdAt).getTime();
-  const elapsedSeconds = Math.floor((now - fifthTime) / 1000);
+  const fifthTime = new Date(fifthLatest.createdAt).getTime(); // transform to milliseconds
+  const elapsedSeconds = Math.floor((now - fifthTime) / 1000); // 
   const retryAfterSeconds = Math.max(0, 60 - elapsedSeconds);
 
   return retryAfterSeconds;
