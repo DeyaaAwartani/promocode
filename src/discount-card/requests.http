@@ -1,9 +1,9 @@
 ### Create Discount Card (percentile,flat)
-POST http://localhost:3000/discount-card/create
+POST http://localhost:3000/discount-card
 Content-Type: application/json
 
 {
-  "discountType": "p", 
+  "discountType": "per", 
   "discountValue": 50,
   "expirationDurationMinutes": 10
 }
@@ -18,14 +18,14 @@ GET http://localhost:3000/discount-card/code?code=5qAbTPgeOHtmUUfF
 GET http://localhost:3000/discount-card/25
 
 ### Update Discount Card
-PATCH http://localhost:3000/discount-card/25
+PATCH http://localhost:3000/discount-card/33
 Content-Type: application/json
 
 {
-  "code": "Helodmv55284df",
-  "discountType": "flat",
-  "discountValue": 30,
-  "expirationDurationMinutes": 1
+  "code": "deyaaloveu",
+  "discountType": "per",
+  "discountValue": 100,
+  "expirationDurationMinutes": 10
 }
 
 ### Delete Discount Card

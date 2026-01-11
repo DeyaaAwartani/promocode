@@ -1,4 +1,5 @@
 import { Expose } from 'class-transformer';
+import { DiscountType } from 'src/discount-card/enums/discount-type.enum';
 
 export class ShowDiscountCardDto {
 
@@ -6,7 +7,7 @@ export class ShowDiscountCardDto {
   code: string;
 
   @Expose()
-  discountType: string;
+  discountType: DiscountType;
 
   @Expose()
   discountValue: number;

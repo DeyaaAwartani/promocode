@@ -1,6 +1,7 @@
 
 import { CouponAttempt } from "src/coupon-attempt/entities/coupon-attempt.entity";
-import { Column, Entity, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { DiscountType } from "src/discount-card/enums/discount-type.enum";
+import { Column, CreateDateColumn, Entity, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 
 @Entity()
@@ -12,8 +13,8 @@ export class DiscountCard {
   @Column()
   code: string;
 
-  @Column()
-  discountType: string;
+  @Column({ type: 'simple-enum', enum: DiscountType })
+  discountType: DiscountType;
 
   @Column()
   discountValue: number;
@@ -26,6 +27,9 @@ export class DiscountCard {
 
   @Column({default:false})
   isUsed: boolean;
+
+  @CreateDateColumn({ type: 'datetime' })
+  createdAt: Date;
 
   @OneToMany(() => CouponAttempt, (attempt) => attempt.discountCard)
   couponAttempts: CouponAttempt[];

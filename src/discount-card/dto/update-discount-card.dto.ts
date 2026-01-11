@@ -1,13 +1,15 @@
 import { Transform } from "class-transformer";
-import {  IsIn, IsISO8601, IsNotEmpty, IsNumber, IsString, Min } from "class-validator";
+import {  IsBoolean, IsEnum, IsIn, IsNumber, IsOptional, IsString, Min } from "class-validator";
+import { DiscountType } from "src/discount-card/enums/discount-type.enum";
 
 
 export class UpdateDiscountCardDto  {
     @IsString()
-    @IsNotEmpty()
-    code: string;
+    @IsOptional()
+    code?: string;
 
 
+    @IsOptional()
     @Transform(({ value }) => {
     if (value == null) return value;          
     const v = String(value).trim().toLowerCase(); 
@@ -16,19 +18,25 @@ export class UpdateDiscountCardDto  {
     
     const first = v[0];
     
-    if (first === 'f') return 'flat';
-    if (first === 'p') return 'percentile';
+    if (first === 'f') return DiscountType.FLAT;
+    if (first === 'p') return DiscountType.PERCENTILE;
     
     return value; 
     })
-    @IsIn(['flat', 'percentile'] , {message: 'discountType must be either flat or percentile'})
-    discountType: string;
+    @IsEnum(DiscountType, {message: 'discountType must be either flat or percentile',})
+    discountType?: DiscountType;
 
+    @IsOptional()
     @IsNumber()
     @Min(1)
-    discountValue: number;
+    discountValue?: number;
 
+    @IsOptional()
+    @IsBoolean()
+    isUsed?:boolean
+
+    @IsOptional()
     @IsIn([1, 5, 10] , {message: 'expirationDurationMinutes must be either 1, 5, or 10'})
-    expirationDurationMinutes: number;
+    expirationDurationMinutes?: number;
 
 }

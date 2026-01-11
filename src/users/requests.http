@@ -1,9 +1,9 @@
 ### create user
-POST http://localhost:3000/users/create
+POST http://localhost:3000/users
 content-type: application/json
 
 {
-  "name": "mohamed"
+  "name": "asma"
 }
 
 ### get all users
@@ -13,11 +13,11 @@ GET http://localhost:3000/users
 GET http://localhost:3000/users/5
 
 ### Update user
-PATCH http://localhost:3000/users/5
+PATCH http://localhost:3000/users/4
 content-type: application/json
 
 {
-  "name": "leen"
+  "name": "ghada"
 }
 
 ### Delete user

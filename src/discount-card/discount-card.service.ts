@@ -35,12 +35,22 @@ export class DiscountCardService {
     return this.repo.findOneBy({id})
   }
 
-  async update(id: number, attrs: Partial<DiscountCard>) {
-    const discountCard = await this.findOne(id);
-    if(!discountCard){
-      throw new NotFoundException('Discount card not found');
-    }
-    Object.assign(discountCard,attrs);
+  async update(id: number, dto: UpdateDiscountCardDto) {
+  const discountCard = await this.findOne(id);
+  if(!discountCard) throw new NotFoundException('Discount card not found');
+
+  if (dto.code !== undefined) discountCard.code = dto.code;
+  if (dto.discountType !== undefined) discountCard.discountType = dto.discountType;
+  if (dto.discountValue !== undefined) discountCard.discountValue = dto.discountValue;
+  if (dto.isUsed !== undefined) discountCard.isUsed = dto.isUsed;
+
+  if (dto.expirationDurationMinutes !== undefined) {
+    discountCard.expirationDurationMinutes = dto.expirationDurationMinutes;
+
+    const expirationDate = new Date(discountCard.createdAt);
+    expirationDate.setMinutes(expirationDate.getMinutes() + dto.expirationDurationMinutes);
+    discountCard.expirationDate = expirationDate;
+  }
     return this.repo.save(discountCard);
   }
 

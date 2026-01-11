@@ -25,20 +25,21 @@ export class ProductsService {
     return this.repo.findOneBy({id})
   }
 
-  async update(id: number, attrs: Partial<Product>) {
+  async update(id: number, dto: UpdateProductDto) {
     const product = await this.findOne(id);
-    if(!product){
-      throw new NotFoundException('Product not found');
-    }
-    Object.assign(product,attrs);
+    if(!product)throw new NotFoundException('Product not found');
+
+    if (dto.name !== undefined) product.name = dto.name;
+
+    if (dto.price !== undefined) product.price = dto.price;
+
     return this.repo.save(product);
   }
 
   async remove(id: number) {
     const product = await this.findOne(id);
-    if(!product){
-      throw new NotFoundException('Product not found');
-    }
+    if(!product) throw new NotFoundException('Product not found');
+
     await this.repo.remove(product);
     return {message: "Remove successfully"}
   }

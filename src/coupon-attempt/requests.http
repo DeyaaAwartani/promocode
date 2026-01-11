@@ -1,9 +1,9 @@
 ### Create a coupon attempt
-POST http://localhost:3000/coupon-attempt
+POST http://localhost:3000/coupon-attempt/apply
 Content-Type: application/json
 
 {
   "userId": 4,
   "productId": 3,
-  "couponCode": "QbPSrXqFu1aClL"
+  "couponCode": "P6jZznZT-RAS5IB"
 }

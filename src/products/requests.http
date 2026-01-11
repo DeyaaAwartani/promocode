@@ -1,9 +1,9 @@
 ### create product
-POST http://localhost:3000/products/create
+POST http://localhost:3000/products
 Content-Type: application/json
 
 {
-  "name": "air",
+  "name": "sai",
   "price": 100
 }
 
@@ -14,13 +14,13 @@ GET http://localhost:3000/products
 GET http://localhost:3000/products/6
 
 ### Update product
-PATCH http://localhost:3000/products/6
+PATCH http://localhost:3000/products/7
 Content-Type: application/json
 
 {
-  "name": "fk",
+  "name": "love",
   "price": 50
 }
 
 ### Delete product
-DELETE http://localhost:3000/products/6
+DELETE http://localhost:3000/products/8

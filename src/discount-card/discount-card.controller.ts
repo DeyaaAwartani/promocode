@@ -10,7 +10,7 @@ export class DiscountCardController {
   constructor(private discountCardService: DiscountCardService) {}
 
   @Serialize(ShowDiscountCardDto)
-  @Post('/create')
+  @Post()
   createProduct(@Body() createDiscountCardDto: CreateDiscountCardDto) {
     return this.discountCardService.create(createDiscountCardDto);
   }

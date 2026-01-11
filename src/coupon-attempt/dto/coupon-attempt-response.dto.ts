@@ -1,21 +1,24 @@
-import { Expose } from 'class-transformer';
+import { Exclude, Expose } from 'class-transformer';
 
+@Exclude()
 export class CouponAttemptResponseDto {
-  @Expose()
-  status: string; // 'success' | 'failed'
 
+  @Expose()
+  status: string; 
+
+  @Expose()
+  reason?: string;
+  
   @Expose()
   priceBefore: number;
-
+  
   @Expose()
   discountAmount: number;
-
+  
   @Expose()
   priceAfter: number;
-
-  @Expose()
-  reason?: string; // موجودة فقط في الفشل
-
+  
   @Expose()
   retryAfterSeconds?: number;
+
 }

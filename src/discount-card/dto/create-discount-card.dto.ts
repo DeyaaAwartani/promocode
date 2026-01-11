@@ -1,5 +1,6 @@
 import { Transform } from "class-transformer";
-import {  IsIn, IsISO8601, IsNotEmpty, IsNumber, IsString, Min } from "class-validator";
+import {  IsEnum, IsIn, IsNumber, Min } from "class-validator";
+import { DiscountType } from "src/discount-card/enums/discount-type.enum";
 
 export class CreateDiscountCardDto {
 
@@ -16,13 +17,13 @@ export class CreateDiscountCardDto {
 
   const first = v[0];
 
-  if (first === 'f') return 'flat';
-  if (first === 'p') return 'percentile';
+  if (first === 'f') return DiscountType.FLAT;
+  if (first === 'p') return DiscountType.PERCENTILE;
 
   return value; 
 })
-  @IsIn(['flat', 'percentile'] , {message: 'discountType must be either flat or percentile'})
-  discountType: string;
+  @IsEnum(DiscountType, {message: 'discountType must be either flat or percentile',})
+  discountType?: DiscountType;
 
 
   @IsNumber()
