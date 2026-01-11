@@ -54,6 +54,19 @@ export class DiscountCardService {
     return this.repo.save(discountCard);
   }
 
+  async claimDiscountCard(discountCardId: number, now: Date = new Date()): Promise<boolean> {
+    const result = await this.repo
+      .createQueryBuilder()
+      .update(DiscountCard)
+      .set({ isUsed: true })
+      .where('id = :id', { id: discountCardId })
+      .andWhere('isUsed = :notUsed', { notUsed: false })
+      .andWhere('expirationDate > :now', { now })
+      .execute();
+
+    return (result.affected ?? 0) === 1;
+  }
+
   async remove(id: number) {
     const discountCard = await this.findOne(id);
     if(!discountCard){

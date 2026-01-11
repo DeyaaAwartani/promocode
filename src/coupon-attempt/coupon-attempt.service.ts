@@ -31,7 +31,7 @@ export class CouponAttemptService {
 
 
   async couponAttempt(couponAttemptDto: CouponAttemptDto) {
-
+    
     // get user to check if user exists
     const user = await this.usersService.findOne(couponAttemptDto.userId);
     if(!user){
@@ -90,11 +90,6 @@ export class CouponAttemptService {
       return await fail(CouponFailureReason.EXPIRED, discountCard.id);
     }
 
-    // check if promo coud is used (already used)
-    if(discountCard.isUsed){
-      return await fail(CouponFailureReason.ALREADY_USED, discountCard.id);
-    }
-
     // calculate discount amount 
     const priceBefore = product.price;
     let discountAmount = discountCard.discountType ==='percentile' ?
@@ -103,8 +98,31 @@ export class CouponAttemptService {
     discountAmount = discountAmount > priceBefore ? priceBefore : discountAmount;
     const priceAfter = Math.max(0, priceBefore - discountAmount);
 
-    //change isUsed to used in promo coud
-    await this.discountCardService.update(discountCard.id,{isUsed:true});
+
+    // const sleep = (ms: number) => new Promise<void>((r) => globalThis.setTimeout(r, ms));
+    // await sleep(3000);
+
+    const now = new Date();
+    const claimed = await this.discountCardService.claimDiscountCard(discountCard.id, now);
+
+    if (!claimed) {
+      // get it to test what is fail
+      const fresh = await this.discountCardService.findOne(discountCard.id);
+
+      // small probability
+      if (!fresh) {
+        return await fail(CouponFailureReason.WRONG_CODE, null);
+      }
+
+      if (fresh.expirationDate < now) {
+        return await fail(CouponFailureReason.EXPIRED, fresh.id);
+      }
+
+      if (fresh.isUsed) {
+        return await fail(CouponFailureReason.ALREADY_USED, fresh.id);
+      }
+
+    }
 
     // log successful attempt
     await this.logAttempt({
